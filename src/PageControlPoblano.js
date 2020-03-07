@@ -42,15 +42,18 @@ class PageControlPoblano extends Component {
             <View>
               <Animated.View style={[{flexDirection: 'row', transform: [{translateX: this.translateX}]}]}>
                 {
-                  pages.map(() => 
-                    <View style={{
-                      width: radius * 2,
-                      height: radius * 2,
-                      marginRight: margin,
-                      borderRadius: radius,
-                      opacity: transparency,
-                      backgroundColor: tintColor,
-                    }}/>
+                  pages.map((index) => 
+                    <View
+                      key={index}
+                      style={{
+                        width: radius * 2,
+                        height: radius * 2,
+                        marginRight: margin,
+                        borderRadius: radius,
+                        opacity: transparency,
+                        backgroundColor: tintColor,
+                      }}
+                    />
                   )
                 }
               </Animated.View>

@@ -40,17 +40,20 @@ class PageControlAji extends Component {
           ) : (
             <View style={{flexDirection: 'row'}}>
               {
-                pages.map(() =>
-                  <View style={{
-                    width: radius * 2,
-                    height: radius * 2,
-                    marginRight: margin,
-                    borderRadius: radius,
-                    opacity: inactiveTransparency,
-                    backgroundColor: tintColor,
-                    borderColor: inactiveBorderColor || tintColor,
-                    borderWidth: 1
-                  }}/>
+                pages.map((index) =>
+                  <View
+                    key={index}
+                    style={{
+                      width: radius * 2,
+                      height: radius * 2,
+                      marginRight: margin,
+                      borderRadius: radius,
+                      opacity: inactiveTransparency,
+                      backgroundColor: tintColor,
+                      borderColor: inactiveBorderColor || tintColor,
+                      borderWidth: 1
+                    }}
+                  />
                 )
               }
 

@@ -42,15 +42,18 @@ class PageControlJaloro extends Component {
           ) : (
             <View style={{flexDirection: 'row'}}>
               {
-                pages.map(() => 
-                  <View style={{
-                    width,
-                    height,
-                    marginRight: margin,
-                    opacity: inactiveTransparency,
-                    backgroundColor: tintColor,
-                    borderRadius
-                  }}/>
+                pages.map((index) => 
+                  <View
+                    key={index}
+                    style={{
+                      width,
+                      height,
+                      marginRight: margin,
+                      opacity: inactiveTransparency,
+                      backgroundColor: tintColor,
+                      borderRadius
+                    }}
+                  />
                 )
               }
 
