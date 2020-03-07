@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
+import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 
 const DOT_RADIUS = 8;
 const DOT_MARGINE = 6;
 const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
-class PageControlAji extends Component {
+class PageControlAleppo extends Component {
 
   translateX = new Animated.Value(0);
+  width = new Animated.Value(DOT_RADIUS * 2);
 
   componentDidUpdate(prevProps) {
     if (prevProps.progress !== this.props.progress) {
-        const newTranslateX  = this.getActiveDotTranslateX();
-        this.animateActiveDotTranslateX(newTranslateX);
+        this.updateActiveDotTranslateX();
     }
   };
 
@@ -25,8 +25,8 @@ class PageControlAji extends Component {
       margin,
       inactiveTransparency,
       inactiveBorderColor,
-      inactiveTintColor,
       tintColor,
+      inactiveTintColor,
       hidesForSinglePage,
     } = this.props;
 
@@ -34,13 +34,13 @@ class PageControlAji extends Component {
 
     return (
       <View style={style}>
-        {
+        { 
           numberOfPages <= 1 && hidesForSinglePage ? (
             null
           ) : (
             <View style={{flexDirection: 'row'}}>
               {
-                pages.map(() =>
+                pages.map(() => 
                   <View style={{
                     width: radius * 2,
                     height: radius * 2,
@@ -55,7 +55,7 @@ class PageControlAji extends Component {
               }
 
               <Animated.View style={{
-                width: radius * 2,
+                width: this.width,
                 height: radius * 2,
                 marginRight: margin,
                 borderRadius: radius,
@@ -63,8 +63,7 @@ class PageControlAji extends Component {
                 opacity: 1,
                 backgroundColor: inactiveTintColor,
                 transform: [{translateX: this.translateX}]
-              }}
-              />
+              }}/>
             </View>
           )
         }
@@ -72,30 +71,48 @@ class PageControlAji extends Component {
     )
   };
 
-  getActiveDotTranslateX() {
+  updateActiveDotTranslateX() {
     const { progress, numberOfPages, radius, margin } = this.props;
     const width = ((numberOfPages - 1) * (radius * 2)) + ((numberOfPages - 1) * margin);
+    const step = 1 / (numberOfPages - 1);
+    const halfStep = step / 2;
+    let translateX = 0;
+    let newWidth = 0;
+    let extraWidthConst = 0;
+
+    if (progress < 0 || progress > 1) {
+      extraWidthConst = 0
+    } else if ((progress % step) > halfStep) {
+      extraWidthConst = (halfStep - ((progress % step) - halfStep)) * (numberOfPages + 1)
+    } else {
+      extraWidthConst = (progress % halfStep) * (numberOfPages + 1)
+    }
+
+    newWidth = (DOT_RADIUS * 2) + ((DOT_RADIUS * 2) * extraWidthConst)
 
     if (progress <= 0) {
-      return 0;
+      translateX = 0;
     } else if (progress >= 1) {
-      return width;
+      translateX = width;
     } else {
-      return width * progress;
+      translateX = width * progress - (((DOT_RADIUS * 2) * extraWidthConst) / 2);
     }
+
+    Animated.parallel([
+      Animated.timing(this.translateX, {
+        toValue: translateX,
+        duration: ANIMATION_DURATION,
+      }),
+      Animated.timing(this.width, {
+        toValue: newWidth,
+        duration: ANIMATION_DURATION,
+      })
+    ]).start();
   };
-
-  animateActiveDotTranslateX(value) {
-    Animated.timing(this.translateX, {
-      toValue: value,
-      duration: ANIMATION_DURATION,
-      useNativeDriver: true,      
-    }).start();
-  }
-
+  
 };
 
-PageControlAji.propTypes = {
+PageControlAleppo.propTypes = {
   style: ViewPropTypes.style,
   numberOfPages: PropTypes.number.isRequired,
   progress: PropTypes.number,
@@ -108,7 +125,7 @@ PageControlAji.propTypes = {
   hidesForSinglePage: PropTypes.bool,
 };
 
-PageControlAji.defaultProps = {
+PageControlAleppo.defaultProps = {
   numberOfPages: 0,
   progress: 0,
   radius: DOT_RADIUS,
@@ -119,4 +136,4 @@ PageControlAji.defaultProps = {
   hidesForSinglePage: true
 };
 
-export default PageControlAji;
+export default PageControlAleppo;

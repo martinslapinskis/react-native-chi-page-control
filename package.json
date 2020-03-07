@@ -30,8 +30,7 @@
   },
   "homepage": "https://github.com/martinslapinskis/react-native-chi-page-control#readme",
   "dependencies": {
-    "prop-types": "^15.7.2",
-    "react-native-reanimated": "^1.7.0"
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "metro-react-native-babel-preset": "^0.58.0"

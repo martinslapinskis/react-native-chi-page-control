@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
+import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 
-const DOT_RADIUS = 8;
-const DOT_MARGINE = 6;
+const ELEMENT_WIDTH = 15;
+const ELEMENT_HEIGHT = 6;
+const ELEMENT_MARGINE = 4;
 const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
-class PageControlAji extends Component {
+class PageControlJaloro extends Component {
 
   translateX = new Animated.Value(0);
 
@@ -21,12 +22,13 @@ class PageControlAji extends Component {
     const {
       style,
       numberOfPages,
-      radius,
+      width,
+      height,
       margin,
+      borderRadius,
       inactiveTransparency,
-      inactiveBorderColor,
-      inactiveTintColor,
       tintColor,
+      inactiveTintColor,
       hidesForSinglePage,
     } = this.props;
 
@@ -34,37 +36,34 @@ class PageControlAji extends Component {
 
     return (
       <View style={style}>
-        {
+        { 
           numberOfPages <= 1 && hidesForSinglePage ? (
             null
           ) : (
             <View style={{flexDirection: 'row'}}>
               {
-                pages.map(() =>
+                pages.map(() => 
                   <View style={{
-                    width: radius * 2,
-                    height: radius * 2,
+                    width,
+                    height,
                     marginRight: margin,
-                    borderRadius: radius,
                     opacity: inactiveTransparency,
                     backgroundColor: tintColor,
-                    borderColor: inactiveBorderColor || tintColor,
-                    borderWidth: 1
+                    borderRadius
                   }}/>
                 )
               }
 
               <Animated.View style={{
-                width: radius * 2,
-                height: radius * 2,
+                width,
+                height,
                 marginRight: margin,
-                borderRadius: radius,
                 position: 'absolute',
                 opacity: 1,
                 backgroundColor: inactiveTintColor,
+                borderRadius,
                 transform: [{translateX: this.translateX}]
-              }}
-              />
+              }}/>
             </View>
           )
         }
@@ -73,15 +72,15 @@ class PageControlAji extends Component {
   };
 
   getActiveDotTranslateX() {
-    const { progress, numberOfPages, radius, margin } = this.props;
-    const width = ((numberOfPages - 1) * (radius * 2)) + ((numberOfPages - 1) * margin);
+    const { progress, numberOfPages, width, margin } = this.props;
+    const fullWidth = ((numberOfPages - 1) * width) + ((numberOfPages - 1) * margin);
 
     if (progress <= 0) {
       return 0;
     } else if (progress >= 1) {
-      return width;
+      return fullWidth;
     } else {
-      return width * progress;
+      return fullWidth * progress;
     }
   };
 
@@ -91,32 +90,35 @@ class PageControlAji extends Component {
       duration: ANIMATION_DURATION,
       useNativeDriver: true,      
     }).start();
-  }
-
+  };
+  
 };
 
-PageControlAji.propTypes = {
+PageControlJaloro.propTypes = {
   style: ViewPropTypes.style,
   numberOfPages: PropTypes.number.isRequired,
   progress: PropTypes.number,
-  radius: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
   margin: PropTypes.number,
+  borderRadius: PropTypes.number,
   inactiveTransparency: PropTypes.number,
-  inactiveBorderColor: PropTypes.string,
   inactiveTintColor: PropTypes.string,
   tintColor: PropTypes.string,
   hidesForSinglePage: PropTypes.bool,
 };
 
-PageControlAji.defaultProps = {
+PageControlJaloro.defaultProps = {
   numberOfPages: 0,
   progress: 0,
-  radius: DOT_RADIUS,
-  margin: DOT_MARGINE,
+  width: ELEMENT_WIDTH,
+  height: ELEMENT_HEIGHT,
+  margin: ELEMENT_MARGINE,
+  borderRadius: ELEMENT_HEIGHT / 2,
   inactiveTransparency: 0.4,
   inactiveTintColor: 'black',
   tintColor: 'black',
   hidesForSinglePage: true
 };
 
-export default PageControlAji;
+export default PageControlJaloro;
