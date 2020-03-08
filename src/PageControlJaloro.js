@@ -4,7 +4,7 @@ import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 
 const ELEMENT_WIDTH = 15;
 const ELEMENT_HEIGHT = 6;
-const ELEMENT_MARGINE = 4;
+const ELEMENT_MARGINE = 6;
 const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
 class PageControlJaloro extends Component {

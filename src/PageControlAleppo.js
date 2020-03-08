@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 
-const DOT_RADIUS = 8;
+const DOT_RADIUS = 6;
 const DOT_MARGINE = 6;
 const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
