@@ -2,9 +2,7 @@
 
 Cool page control with custom animations written in React Native and inspired by Native iOS framework [CHIPageControl](https://github.com/ChiliLabs/CHIPageControl)
 
-## Overview
-
-<img src="assets/Overview.gif" width="600" height="450">
+<img src="assets/Overview.gif" width="600" height="225">
 
 ## Installation
 
@@ -32,7 +30,7 @@ import {
 <PageControlPoblano progress={0.5} numberOfPages={3} />
 ```
 
-### Properties for all components
+## Properties for all components
 
 | Prop                                 | Description                                                               | Default |
 | ------------------------------------ | ------------------------------------------------------------------------- | ------- |
@@ -42,7 +40,7 @@ import {
 | **`tintColor`**                      | Color of moving page.                                                     | `black` |
 | **`hidesForSinglePage`**             | If set true then if page control will have one page, will be hidden.      | `true`  |
 
-### PageControlAji  &  PageControlAleppo
+## PageControlAji  &  PageControlAleppo
 
 All of the props under _Properties_ in addition to the following:
 
@@ -53,7 +51,7 @@ All of the props under _Properties_ in addition to the following:
 | **`inactiveBorderColor`**            | Inactive page border color.                                               | _None_  |
 | **`inactiveTintColor`**              | Inactive page color.                                                      | `black` |
 
-### PageControlJaloro
+## PageControlJaloro
 
 All of the props under _Properties_ in addition to the following:
 
@@ -66,7 +64,7 @@ All of the props under _Properties_ in addition to the following:
 | **`inactiveTintColor`**              | Inactive page color.                                                      | `black` |
 
 
-### PageControlPoblano
+## PageControlPoblano
 
 All of the props under _Properties_ in addition to the following:
 
@@ -76,7 +74,7 @@ All of the props under _Properties_ in addition to the following:
 | **`transparency`**                   | Page view opacity.                                                        | `1`     |
 | **`inactiveBorderColor`**            | Inactive page color.                                                      | `black` |
 
-### Page Controls 🌶️🌶️🌶️
+## Page Controls 🌶️🌶️🌶️
 
 <img src="assets/Aji.gif" width="100" height="50"> PageControlAji
 
