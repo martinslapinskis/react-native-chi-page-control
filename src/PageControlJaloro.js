@@ -11,10 +11,13 @@ class PageControlJaloro extends Component {
 
   translateX = new Animated.Value(0);
 
+  componentDidMount() {
+    this.updatePageControl(0);
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.progress !== this.props.progress) {
-        const newTranslateX  = this.getActiveDotTranslateX();
-        this.animateActiveDotTranslateX(newTranslateX);
+      this.updatePageControl();
     }
   };
 
@@ -27,7 +30,7 @@ class PageControlJaloro extends Component {
       margin,
       borderRadius,
       inactiveTransparency,
-      tintColor,
+      activeTintColor,
       inactiveTintColor,
       hidesForSinglePage,
     } = this.props;
@@ -50,7 +53,7 @@ class PageControlJaloro extends Component {
                       height,
                       marginRight: margin,
                       opacity: inactiveTransparency,
-                      backgroundColor: tintColor,
+                      backgroundColor: inactiveTintColor,
                       borderRadius
                     }}
                   />
@@ -63,7 +66,7 @@ class PageControlJaloro extends Component {
                 marginRight: margin,
                 position: 'absolute',
                 opacity: 1,
-                backgroundColor: inactiveTintColor,
+                backgroundColor: activeTintColor,
                 borderRadius,
                 transform: [{translateX: this.translateX}]
               }}/>
@@ -72,6 +75,11 @@ class PageControlJaloro extends Component {
         }
       </View>
     )
+  };
+
+  updatePageControl(duration = ANIMATION_DURATION) {
+    const newTranslateX  = this.getActiveDotTranslateX();
+    this.animateActiveDotTranslateX(newTranslateX, duration);
   };
 
   getActiveDotTranslateX() {
@@ -87,10 +95,10 @@ class PageControlJaloro extends Component {
     }
   };
 
-  animateActiveDotTranslateX(value) {
+  animateActiveDotTranslateX(value, duration) {
     Animated.timing(this.translateX, {
       toValue: value,
-      duration: ANIMATION_DURATION,
+      duration: duration,
       useNativeDriver: true,      
     }).start();
   };
@@ -107,7 +115,7 @@ PageControlJaloro.propTypes = {
   borderRadius: PropTypes.number,
   inactiveTransparency: PropTypes.number,
   inactiveTintColor: PropTypes.string,
-  tintColor: PropTypes.string,
+  activeTintColor: PropTypes.string,
   hidesForSinglePage: PropTypes.bool,
 };
 
@@ -120,7 +128,7 @@ PageControlJaloro.defaultProps = {
   borderRadius: ELEMENT_HEIGHT / 2,
   inactiveTransparency: 0.4,
   inactiveTintColor: 'black',
-  tintColor: 'black',
+  activeTintColor: 'black',
   hidesForSinglePage: true
 };
 

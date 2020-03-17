@@ -37,7 +37,7 @@ import {
 | **`numberOfPages`**                  | Number of pages show in page control.                                     | `0`     |
 | **`progress`**                       | Progress of page. A number between 0 and 1.                               | `0`     |
 | **`margin`**                         | Space between pages.                                                      | `6`     |
-| **`tintColor`**                      | Color of moving page.                                                     | `black` |
+| **`activeTintColor`**                | Color of moving page.                                                     | `black` |
 | **`hidesForSinglePage`**             | If set true then if page control will have one page, will be hidden.      | `true`  |
 
 ## PageControlAji  &  PageControlAleppo
@@ -71,7 +71,7 @@ All of the props under _Properties_ in addition to the following:
 | Prop                                 | Description                                                               | Default |
 | ------------------------------------ | ------------------------------------------------------------------------- | ------- |
 | **`radius`**                         | Page radius.                                                              | `6`     |
-| **`transparency`**                   | Page view opacity.                                                        | `1`     |
+| **`activeTransparency`**             | Page view opacity.                                                        | `1`     |
 | **`inactiveBorderColor`**            | Inactive page color.                                                      | `black` |
 
 ## Page Controls 🌶️🌶️🌶️

@@ -10,10 +10,13 @@ class PageControlAji extends Component {
 
   translateX = new Animated.Value(0);
 
+  componentDidMount() {
+    this.updatePageControl(0);
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.progress !== this.props.progress) {
-        const newTranslateX  = this.getActiveDotTranslateX();
-        this.animateActiveDotTranslateX(newTranslateX);
+      this.updatePageControl();
     }
   };
 
@@ -26,7 +29,7 @@ class PageControlAji extends Component {
       inactiveTransparency,
       inactiveBorderColor,
       inactiveTintColor,
-      tintColor,
+      activeTintColor,
       hidesForSinglePage,
     } = this.props;
 
@@ -49,8 +52,8 @@ class PageControlAji extends Component {
                       marginRight: margin,
                       borderRadius: radius,
                       opacity: inactiveTransparency,
-                      backgroundColor: tintColor,
-                      borderColor: inactiveBorderColor || tintColor,
+                      backgroundColor: inactiveTintColor,
+                      borderColor: inactiveBorderColor || inactiveTintColor,
                       borderWidth: 1
                     }}
                   />
@@ -64,7 +67,7 @@ class PageControlAji extends Component {
                 borderRadius: radius,
                 position: 'absolute',
                 opacity: 1,
-                backgroundColor: inactiveTintColor,
+                backgroundColor: activeTintColor,
                 transform: [{translateX: this.translateX}]
               }}
               />
@@ -73,6 +76,11 @@ class PageControlAji extends Component {
         }
       </View>
     )
+  };
+
+  updatePageControl(duration = ANIMATION_DURATION) {
+    const newTranslateX  = this.getActiveDotTranslateX();
+    this.animateActiveDotTranslateX(newTranslateX, duration);
   };
 
   getActiveDotTranslateX() {
@@ -88,13 +96,13 @@ class PageControlAji extends Component {
     }
   };
 
-  animateActiveDotTranslateX(value) {
+  animateActiveDotTranslateX(value, duration) {
     Animated.timing(this.translateX, {
       toValue: value,
-      duration: ANIMATION_DURATION,
+      duration: duration,
       useNativeDriver: true,      
     }).start();
-  }
+  };
 
 };
 
@@ -107,7 +115,7 @@ PageControlAji.propTypes = {
   inactiveTransparency: PropTypes.number,
   inactiveBorderColor: PropTypes.string,
   inactiveTintColor: PropTypes.string,
-  tintColor: PropTypes.string,
+  activeTintColor: PropTypes.string,
   hidesForSinglePage: PropTypes.bool,
 };
 
@@ -118,7 +126,7 @@ PageControlAji.defaultProps = {
   margin: DOT_MARGINE,
   inactiveTransparency: 0.4,
   inactiveTintColor: 'black',
-  tintColor: 'black',
+  activeTintColor: 'black',
   hidesForSinglePage: true
 };
 

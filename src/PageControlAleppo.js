@@ -9,7 +9,11 @@ const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 class PageControlAleppo extends Component {
 
   translateX = new Animated.Value(0);
-  width = new Animated.Value(DOT_RADIUS * 2);
+  width = new Animated.Value(0);
+
+  componentDidMount() {
+    this.updateActiveDotTranslateX(0);
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.progress !== this.props.progress) {
@@ -25,7 +29,7 @@ class PageControlAleppo extends Component {
       margin,
       inactiveTransparency,
       inactiveBorderColor,
-      tintColor,
+      activeTintColor,
       inactiveTintColor,
       hidesForSinglePage,
     } = this.props;
@@ -49,8 +53,8 @@ class PageControlAleppo extends Component {
                       marginRight: margin,
                       borderRadius: radius,
                       opacity: inactiveTransparency,
-                      backgroundColor: tintColor,
-                      borderColor: inactiveBorderColor || tintColor,
+                      backgroundColor: inactiveTintColor,
+                      borderColor: inactiveBorderColor || inactiveTintColor,
                       borderWidth: 1
                     }}
                   />
@@ -64,7 +68,7 @@ class PageControlAleppo extends Component {
                 borderRadius: radius,
                 position: 'absolute',
                 opacity: 1,
-                backgroundColor: inactiveTintColor,
+                backgroundColor: activeTintColor,
                 transform: [{translateX: this.translateX}]
               }}/>
             </View>
@@ -74,7 +78,7 @@ class PageControlAleppo extends Component {
     )
   };
 
-  updateActiveDotTranslateX() {
+  updateActiveDotTranslateX(duration = ANIMATION_DURATION) {
     const { progress, numberOfPages, radius, margin } = this.props;
     const width = ((numberOfPages - 1) * (radius * 2)) + ((numberOfPages - 1) * margin);
     const step = 1 / (numberOfPages - 1);
@@ -91,24 +95,24 @@ class PageControlAleppo extends Component {
       extraWidthConst = (progress % halfStep) * (numberOfPages + 1)
     }
 
-    newWidth = (DOT_RADIUS * 2) + ((DOT_RADIUS * 2) * extraWidthConst)
-
     if (progress <= 0) {
       translateX = 0;
     } else if (progress >= 1) {
       translateX = width;
     } else {
-      translateX = width * progress - (((DOT_RADIUS * 2) * extraWidthConst) / 2);
+      translateX = width * progress - (((radius * 2) * extraWidthConst) / 2);
     }
+
+    newWidth = (radius * 2) + ((radius * 2) * extraWidthConst);
 
     Animated.parallel([
       Animated.timing(this.translateX, {
         toValue: translateX,
-        duration: ANIMATION_DURATION,
+        duration,
       }),
       Animated.timing(this.width, {
         toValue: newWidth,
-        duration: ANIMATION_DURATION,
+        duration,
       })
     ]).start();
   };
@@ -135,7 +139,7 @@ PageControlAleppo.defaultProps = {
   margin: DOT_MARGINE,
   inactiveTransparency: 0.4,
   inactiveTintColor: 'black',
-  tintColor: 'black',
+  activeTintColor: 'black',
   hidesForSinglePage: true
 };
 

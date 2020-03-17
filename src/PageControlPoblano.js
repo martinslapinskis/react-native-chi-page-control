@@ -11,10 +11,13 @@ class PageControlPoblano extends Component {
 
   translateX = new Animated.Value(0);
 
+  componentDidMount() {
+    this.updatePageControl(0);
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.progress !== this.props.progress) {
-        const newTranslateX  = this.getDotViewTranslateX();
-        this.animateDotViewTranslateX(newTranslateX);
+      this.updatePageControl();
     }
   };
 
@@ -24,8 +27,8 @@ class PageControlPoblano extends Component {
       numberOfPages,
       radius,
       margin,
-      transparency,
-      tintColor,
+      activeTransparency,
+      activeTintColor,
       inactiveBorderColor,
       hidesForSinglePage,
     } = this.props;
@@ -50,8 +53,8 @@ class PageControlPoblano extends Component {
                         height: radius * 2,
                         marginRight: margin,
                         borderRadius: radius,
-                        opacity: transparency,
-                        backgroundColor: tintColor,
+                        opacity: activeTransparency,
+                        backgroundColor: activeTintColor,
                       }}
                     />
                   )
@@ -76,6 +79,11 @@ class PageControlPoblano extends Component {
     )
   };
 
+  updatePageControl(duration = ANIMATION_DURATION) {
+    const newTranslateX  = this.getDotViewTranslateX();
+    this.animateDotViewTranslateX(newTranslateX, duration);
+  };
+
   getDotViewTranslateX() {
     const { progress, numberOfPages, radius, margin } = this.props;
     const width = ((numberOfPages - 1) * (radius * 2)) + ((numberOfPages - 1) * margin);
@@ -89,10 +97,10 @@ class PageControlPoblano extends Component {
     }
   };
 
-  animateDotViewTranslateX(value) {
+  animateDotViewTranslateX(value, duration) {
     Animated.timing(this.translateX, {
       toValue: value,
-      duration: ANIMATION_DURATION,
+      duration: duration,
       useNativeDriver: true,      
     }).start();
   }
@@ -105,8 +113,8 @@ PageControlPoblano.propTypes = {
   progress: PropTypes.number,
   radius: PropTypes.number,
   margin: PropTypes.number,
-  transparency: PropTypes.number,
-  tintColor: PropTypes.string,
+  activeTransparency: PropTypes.number,
+  activeTintColor: PropTypes.string,
   inactiveBorderColor: PropTypes.string,
   hidesForSinglePage: PropTypes.bool,
 };
@@ -116,8 +124,8 @@ PageControlPoblano.defaultProps = {
   progress: 0,
   radius: DOT_RADIUS,
   margin: DOT_MARGINE,
-  transparency: 1,
-  tintColor: 'black',
+  activeTransparency: 1,
+  activeTintColor: 'black',
   inactiveBorderColor: 'black',
   hidesForSinglePage: true
 };
