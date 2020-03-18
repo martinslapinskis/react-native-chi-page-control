@@ -96,6 +96,8 @@ class PageControlJaloro extends Component {
   };
 
   animateActiveDotTranslateX(value, duration) {
+    if (isNaN(value)) return
+    
     Animated.timing(this.translateX, {
       toValue: value,
       duration: duration,

@@ -105,6 +105,8 @@ class PageControlAleppo extends Component {
 
     newWidth = (radius * 2) + ((radius * 2) * extraWidthConst);
 
+    if (isNaN(translateX)) return
+
     Animated.parallel([
       Animated.timing(this.translateX, {
         toValue: translateX,
