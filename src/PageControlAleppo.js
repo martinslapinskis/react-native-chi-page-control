@@ -4,12 +4,12 @@ import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 
 const DOT_RADIUS = 6;
 const DOT_MARGINE = 6;
-const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
 class PageControlAleppo extends Component {
 
   translateX = new Animated.Value(0);
   width = new Animated.Value(0);
+  animationDuration = Platform.OS == 'ios' ? this.props.animationDuration : 0;
 
   componentDidMount() {
     this.updateActiveDotTranslateX(0);
@@ -78,7 +78,7 @@ class PageControlAleppo extends Component {
     )
   };
 
-  updateActiveDotTranslateX(duration = ANIMATION_DURATION) {
+  updateActiveDotTranslateX(duration = this.animationDuration) {
     const { progress, numberOfPages, radius, margin } = this.props;
     const width = ((numberOfPages - 1) * (radius * 2)) + ((numberOfPages - 1) * margin);
     const step = 1 / (numberOfPages - 1);
@@ -125,6 +125,7 @@ PageControlAleppo.propTypes = {
   style: ViewPropTypes.style,
   numberOfPages: PropTypes.number.isRequired,
   progress: PropTypes.number,
+  animationDuration: PropTypes.number,
   radius: PropTypes.number,
   margin: PropTypes.number,
   inactiveTransparency: PropTypes.number,
@@ -137,6 +138,7 @@ PageControlAleppo.propTypes = {
 PageControlAleppo.defaultProps = {
   numberOfPages: 0,
   progress: 0,
+  animationDuration: 50,
   radius: DOT_RADIUS,
   margin: DOT_MARGINE,
   inactiveTransparency: 0.4,

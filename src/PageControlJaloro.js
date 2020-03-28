@@ -5,11 +5,11 @@ import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 const ELEMENT_WIDTH = 15;
 const ELEMENT_HEIGHT = 6;
 const ELEMENT_MARGINE = 6;
-const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
 class PageControlJaloro extends Component {
 
   translateX = new Animated.Value(0);
+  animationDuration = Platform.OS == 'ios' ? this.props.animationDuration : 0;
 
   componentDidMount() {
     this.updatePageControl(0);
@@ -77,7 +77,7 @@ class PageControlJaloro extends Component {
     )
   };
 
-  updatePageControl(duration = ANIMATION_DURATION) {
+  updatePageControl(duration = this.animationDuration) {
     const newTranslateX  = this.getActiveDotTranslateX();
     this.animateActiveDotTranslateX(newTranslateX, duration);
   };
@@ -111,6 +111,7 @@ PageControlJaloro.propTypes = {
   style: ViewPropTypes.style,
   numberOfPages: PropTypes.number.isRequired,
   progress: PropTypes.number,
+  animationDuration: PropTypes.number,
   width: PropTypes.number,
   height: PropTypes.number,
   margin: PropTypes.number,
@@ -124,6 +125,7 @@ PageControlJaloro.propTypes = {
 PageControlJaloro.defaultProps = {
   numberOfPages: 0,
   progress: 0,
+  animationDuration: 50,
   width: ELEMENT_WIDTH,
   height: ELEMENT_HEIGHT,
   margin: ELEMENT_MARGINE,

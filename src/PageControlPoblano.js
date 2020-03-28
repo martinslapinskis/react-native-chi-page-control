@@ -5,11 +5,11 @@ import { View, Animated, Platform, ViewPropTypes } from 'react-native';
 const DOT_RADIUS = 6;
 const DOT_MARGINE = 6;
 const MIDDLE_EXTRA_HIGHT = 4;
-const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
 class PageControlPoblano extends Component {
 
   translateX = new Animated.Value(0);
+  animationDuration = Platform.OS == 'ios' ? this.props.animationDuration : 0;
 
   componentDidMount() {
     this.updatePageControl(0);
@@ -79,7 +79,7 @@ class PageControlPoblano extends Component {
     )
   };
 
-  updatePageControl(duration = ANIMATION_DURATION) {
+  updatePageControl(duration = this.animationDuration) {
     const newTranslateX  = this.getDotViewTranslateX();
     this.animateDotViewTranslateX(newTranslateX, duration);
   };
@@ -113,6 +113,7 @@ PageControlPoblano.propTypes = {
   style: ViewPropTypes.style,
   numberOfPages: PropTypes.number.isRequired,
   progress: PropTypes.number,
+  animationDuration: PropTypes.number,
   radius: PropTypes.number,
   margin: PropTypes.number,
   activeTransparency: PropTypes.number,
@@ -124,6 +125,7 @@ PageControlPoblano.propTypes = {
 PageControlPoblano.defaultProps = {
   numberOfPages: 0,
   progress: 0,
+  animationDuration: 50,
   radius: DOT_RADIUS,
   margin: DOT_MARGINE,
   activeTransparency: 1,

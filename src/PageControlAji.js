@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 const DOT_RADIUS = 6;
 const DOT_MARGINE = 6;
-const ANIMATION_DURATION = Platform.OS == 'ios' ? 50 : 0;
 
 class PageControlAji extends Component {
 
   translateX = new Animated.Value(0);
+  animationDuration = Platform.OS == 'ios' ? this.props.animationDuration : 0;
 
   componentDidMount() {
     this.updatePageControl(0);
@@ -78,7 +78,7 @@ class PageControlAji extends Component {
     )
   };
 
-  updatePageControl(duration = ANIMATION_DURATION) {
+  updatePageControl(duration = this.animationDuration) {
     const newTranslateX  = this.getActiveDotTranslateX();
     this.animateActiveDotTranslateX(newTranslateX, duration);
   };
@@ -112,6 +112,7 @@ PageControlAji.propTypes = {
   style: ViewPropTypes.style,
   numberOfPages: PropTypes.number.isRequired,
   progress: PropTypes.number,
+  animationDuration: PropTypes.number,
   radius: PropTypes.number,
   margin: PropTypes.number,
   inactiveTransparency: PropTypes.number,
@@ -124,6 +125,7 @@ PageControlAji.propTypes = {
 PageControlAji.defaultProps = {
   numberOfPages: 0,
   progress: 0,
+  animationDuration: 50,
   radius: DOT_RADIUS,
   margin: DOT_MARGINE,
   inactiveTransparency: 0.4,
