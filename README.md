@@ -30,12 +30,19 @@ import {
 <PageControlPoblano progress={0.5} numberOfPages={3} />
 ```
 
+## Examples
+
+  [FlatList](./examples/FlatListExample.js)
+  <br />
+  [react-native-swiper](./examples/SwiperExample.js)
+
 ## Properties for all components
 
 | Prop                                 | Description                                                               | Default |
 | ------------------------------------ | ------------------------------------------------------------------------- | ------- |
 | **`numberOfPages`**                  | Number of pages show in page control.                                     | `0`     |
 | **`progress`**                       | Progress of page. A number between 0 and 1.                               | `0`     |
+| **`animationDuration`**              | Page scroll animation speed.                                              | `50`    |
 | **`margin`**                         | Space between pages.                                                      | `6`     |
 | **`activeTintColor`**                | Color of moving page.                                                     | `black` |
 | **`hidesForSinglePage`**             | If set true then if page control will have one page, will be hidden.      | `true`  |
