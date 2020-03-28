@@ -1,6 +1,6 @@
 {
   "name": "react-native-chi-page-control",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Cool page control animations written in React Native",
   "main": "index.js",
   "scripts": {
