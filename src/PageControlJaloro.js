@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, Animated, Platform, ViewPropTypes } from 'react-native';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { View, Animated, Platform, ViewPropTypes } from "react-native";
 
 const ELEMENT_WIDTH = 15;
 const ELEMENT_HEIGHT = 6;
 const ELEMENT_MARGINE = 6;
 
 class PageControlJaloro extends Component {
-
   translateX = new Animated.Value(0);
-  animationDuration = Platform.OS == 'ios' ? this.props.animationDuration : 0;
+  animationDuration = Platform.OS == "ios" ? this.props.animationDuration : 0;
 
   componentDidMount() {
     this.updatePageControl(0);
-  };
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.progress !== this.props.progress) {
       this.updatePageControl();
     }
-  };
+  }
 
-  render(){
+  render() {
     const {
       style,
       numberOfPages,
@@ -32,59 +31,54 @@ class PageControlJaloro extends Component {
       inactiveTransparency,
       activeTintColor,
       inactiveTintColor,
-      hidesForSinglePage,
+      hidesForSinglePage
     } = this.props;
 
     const pages = Array.from(Array(numberOfPages).keys());
 
     return (
       <View style={style}>
-        { 
-          numberOfPages <= 1 && hidesForSinglePage ? (
-            null
-          ) : (
-            <View style={{flexDirection: 'row'}}>
-              {
-                pages.map((index) => 
-                  <View
-                    key={index}
-                    style={{
-                      width,
-                      height,
-                      marginRight: margin,
-                      opacity: inactiveTransparency,
-                      backgroundColor: inactiveTintColor,
-                      borderRadius
-                    }}
-                  />
-                )
-              }
+        {(numberOfPages > 1 || !hidesForSinglePage) && (
+          <View style={{ flexDirection: "row" }}>
+            {pages.map(index => (
+              <View
+                key={index}
+                style={{
+                  width,
+                  height,
+                  marginEnd: index === pages.length - 1 ? 0 : margin,
+                  opacity: inactiveTransparency,
+                  backgroundColor: inactiveTintColor,
+                  borderRadius
+                }}
+              />
+            ))}
 
-              <Animated.View style={{
+            <Animated.View
+              style={{
                 width,
                 height,
-                marginRight: margin,
-                position: 'absolute',
+                position: "absolute",
                 opacity: 1,
                 backgroundColor: activeTintColor,
                 borderRadius,
-                transform: [{translateX: this.translateX}]
-              }}/>
-            </View>
-          )
-        }
+                transform: [{ translateX: this.translateX }]
+              }}
+            />
+          </View>
+        )}
       </View>
-    )
-  };
+    );
+  }
 
   updatePageControl(duration = this.animationDuration) {
-    const newTranslateX  = this.getActiveDotTranslateX();
+    const newTranslateX = this.getActiveDotTranslateX();
     this.animateActiveDotTranslateX(newTranslateX, duration);
-  };
+  }
 
   getActiveDotTranslateX() {
     const { progress, numberOfPages, width, margin } = this.props;
-    const fullWidth = ((numberOfPages - 1) * width) + ((numberOfPages - 1) * margin);
+    const fullWidth = (numberOfPages - 1) * width + (numberOfPages - 1) * margin;
 
     if (progress <= 0) {
       return 0;
@@ -93,19 +87,18 @@ class PageControlJaloro extends Component {
     } else {
       return fullWidth * progress;
     }
-  };
+  }
 
   animateActiveDotTranslateX(value, duration) {
-    if (isNaN(value)) return
-    
+    if (isNaN(value)) return;
+
     Animated.timing(this.translateX, {
       toValue: value,
       duration: duration,
-      useNativeDriver: true,      
+      useNativeDriver: true
     }).start();
-  };
-  
-};
+  }
+}
 
 PageControlJaloro.propTypes = {
   style: ViewPropTypes.style,
@@ -119,7 +112,7 @@ PageControlJaloro.propTypes = {
   inactiveTransparency: PropTypes.number,
   inactiveTintColor: PropTypes.string,
   activeTintColor: PropTypes.string,
-  hidesForSinglePage: PropTypes.bool,
+  hidesForSinglePage: PropTypes.bool
 };
 
 PageControlJaloro.defaultProps = {
@@ -131,8 +124,8 @@ PageControlJaloro.defaultProps = {
   margin: ELEMENT_MARGINE,
   borderRadius: ELEMENT_HEIGHT / 2,
   inactiveTransparency: 0.4,
-  inactiveTintColor: 'black',
-  activeTintColor: 'black',
+  inactiveTintColor: "black",
+  activeTintColor: "black",
   hidesForSinglePage: true
 };
 
